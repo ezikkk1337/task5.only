@@ -1,0 +1,6 @@
+db
+html/*
+!html/local/
+!html/logs/
+
+.DS_Store
