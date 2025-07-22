@@ -7,12 +7,12 @@ class Iblock
     {
         // Здесь напиши свой агент
         if (\Bitrix\Main\Loader::includeModule('iblock')) {
-            // Получаем ID инфоблока LOG
+
             $res = \CIBlock::GetList([], ['CODE' => 'LOG']);
             if ($logIblock = $res->Fetch()) {
                 $logIblockId = $logIblock['ID'];
                 
-                // Получаем общее количество элементов в логе
+
                 $totalCount = \CIBlockElement::GetList(
                     [],
                     ['IBLOCK_ID' => $logIblockId],
@@ -21,9 +21,9 @@ class Iblock
                     []
                 );
                 
-                // Если элементов больше 10, удаляем старые
+
                 if ($totalCount > 10) {
-                    // Получаем все элементы, отсортированные по дате изменения (новые первыми)
+
                     $rsLogs = \CIBlockElement::GetList(
                         ['TIMESTAMP_X' => 'DESC'],
                         ['IBLOCK_ID' => $logIblockId],
@@ -35,7 +35,7 @@ class Iblock
                     $counter = 0;
                     $idsToDelete = [];
                     
-                    // Пропускаем первые 10 элементов (самые новые), остальные помечаем на удаление
+
                     while ($arLog = $rsLogs->Fetch()) {
                         $counter++;
                         if ($counter > 10) {
@@ -43,7 +43,7 @@ class Iblock
                         }
                     }
                     
-                    // Удаляем старые логи
+
                     foreach ($idsToDelete as $logId) {
                         \CIBlockElement::Delete($logId);
                     }
@@ -51,7 +51,7 @@ class Iblock
             }
         }
         
-        // Возвращаем строку для повторного запуска агента через час (3600 секунд)
+
         return '\\' . __CLASS__ . '::' . __FUNCTION__ . '();';
     }
 
