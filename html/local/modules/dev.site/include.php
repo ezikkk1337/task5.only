@@ -15,7 +15,7 @@ spl_autoload_register(function($className) {
     if ($parts[0] !== 'Only' || $parts[1] !== 's1') {
         return;
     }
-    // строим путь: /local/modules/dev.site/lib/<Agents|Handlers>/...php
+
     $relative = implode('/', array_slice($parts, 2)) . '.php';
     $file = __DIR__ . '/lib/' . $relative;
     if (file_exists($file)) {
